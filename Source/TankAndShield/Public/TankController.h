@@ -9,9 +9,12 @@
  * 
  */
 UCLASS()
-class TANKANDSHIELD_API ATankController : public APlayerController
+class TANKANDSHIELD_API ATankPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 	
-	
+public:
+	ATank* GetControlledTank() const;
+
+	void BeginPlay() override;
 };
