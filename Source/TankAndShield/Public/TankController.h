@@ -21,11 +21,14 @@ public:
 	UPROPERTY(EditAnywhere)
 	FVector2D CrossHairLocation;
 
+	UPROPERTY(EditAnywhere)
+	float LineTraceRange = 100000.f;
+
 	void AimTowardsCrosshair();
 
 private:
 	
 	bool GetSightRayHitLocation(FVector &HitLocation) const;
-	FVector GetLookVectorHitLocation(FVector LookDirection) const;
+	bool GetLookVectorHitLocation(FVector LookDirection, FVector& HitResult) const;
 	bool GetLookDirection(FVector2D ScreenPosition, FVector& LookDirection) const;
 };
