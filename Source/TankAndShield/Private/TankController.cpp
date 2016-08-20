@@ -61,11 +61,10 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector &HitLocation) const
 
 		if (GetLookVectorHitLocation(LookDirection, HitLocation))
 		{
-			DrawDebugLine(GetWorld(), ActorLocation, HitLocation, FColor::Red, false, -1.f, '\000', 10.f);
+			return true;
 		}
 
-		
-		return true;
+		return false;
 	}
 	else {
 		return false;
