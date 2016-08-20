@@ -21,6 +21,7 @@ void ATankPlayerController::BeginPlay()
 void ATankPlayerController::Tick(float DeltaTime)
 {
 	Super::Tick( DeltaTime );
+	AimTowardsCrosshair();
 }
 
 ATank* ATankPlayerController::GetControlledTank() const
@@ -43,5 +44,45 @@ void ATankPlayerController::AimTowardsCrosshair()
 
 bool ATankPlayerController::GetSightRayHitLocation(FVector &HitLocation) const
 {
-	return false;
+	HitLocation = FVector(1.0f);
+
+	//	Get Viewport Sizes and Set Aim
+	int32 ViewportSizeX;
+	int32 ViewportSizeY;
+	GetViewportSize(ViewportSizeX, ViewportSizeY);
+
+	//	Get ScreenPosition
+	FVector2D ScreenPosition = FVector2D(ViewportSizeX * CrossHairLocation.X, ViewportSizeY * CrossHairLocation.Y);
+	FVector LookDirection;
+
+	if (GetLookDirection(ScreenPosition, LookDirection)) {
+		FVector ActorLocation = GetPawn()->GetActorLocation();
+		FVector AimPoint = ActorLocation * LookDirection * 500.f;
+
+		DrawDebugLine(GetWorld(), ActorLocation, AimPoint, FColor::Red, false, -1.f, '\000', 10.f);
+		//GetLookVectorHitLocation();
+		return true;
+	}
+	else {
+		return false;
+	}
+
+	
+}
+
+FVector ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection) const
+{
+	return LookDirection;
+}
+bool ATankPlayerController::GetLookDirection(FVector2D ScreenPosition, FVector& LookDirection) const
+{
+	//	Get Location and Direction of Crosshair
+	FVector WorldLocation;
+
+	return DeprojectScreenPositionToWorld(
+		ScreenPosition.X, 
+		ScreenPosition.Y, 
+		WorldLocation, 
+		LookDirection
+	);
 }

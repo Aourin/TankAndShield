@@ -18,8 +18,14 @@ public:
 	virtual void BeginPlay() override;
 	virtual void Tick( float DeltaTime ) override;
 
-	void AimTowardsCrosshair();
-private:
+	UPROPERTY(EditAnywhere)
+	FVector2D CrossHairLocation;
 
+	void AimTowardsCrosshair();
+
+private:
+	
 	bool GetSightRayHitLocation(FVector &HitLocation) const;
+	FVector GetLookVectorHitLocation(FVector LookDirection) const;
+	bool GetLookDirection(FVector2D ScreenPosition, FVector& LookDirection) const;
 };
