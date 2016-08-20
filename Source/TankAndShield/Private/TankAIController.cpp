@@ -24,7 +24,11 @@ void ATankAIController::BeginPlay()
 	else {
 		UE_LOG(LogTemp, Warning, TEXT("Get Player Tank from AI Tank: Name is %s"), *(PlayerTank->GetName()));
 	}
+}
 
+bool ATankAIController::GetSightRayHitLocation(FVector & HitLocation) const
+{
+	return false;
 }
 
 ATank* ATankAIController::GetControlledTank() const

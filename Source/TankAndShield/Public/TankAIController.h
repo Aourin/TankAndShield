@@ -19,5 +19,5 @@ private:
 	ATank* GetPlayerTank() const;
 
 	void BeginPlay() override;
-	
+	bool GetSightRayHitLocation(FVector &HitLocation) const;
 };
