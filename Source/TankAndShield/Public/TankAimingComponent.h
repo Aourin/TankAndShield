@@ -26,4 +26,5 @@ private:
 	UTankBarrel* Barrel = nullptr;
 	UStaticMeshComponent* TurretBase = nullptr;
 	void MoveBarrelTowards(FVector AimDirection);
+
 };

@@ -15,7 +15,6 @@ UTankAimingComponent::UTankAimingComponent()
 	// ...
 }
 
-
 void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
 {
 	Barrel = BarrelToSet;
@@ -32,16 +31,19 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	auto TurretRotation = Barrel->GetForwardVector().Rotation();
 	auto AimRotator = AimDirection.Rotation();
 	if (!TurretBase) { return; }
-	auto DeltaRotator = AimRotator - TurretRotation;
-	TurretBase->SetRelativeRotation(DeltaRotator);
 
-	Barrel->Elevate(5);
+	UE_LOG(LogTemp, Warning, TEXT("Move Barrel Towards"));
+	//auto DeltaRotator = AimRotator - TurretRotation;
+	//TurretBase->SetRelativeRotation(DeltaRotator);
+
+	Barrel->Elevate(5.f);
 }
 
 void UTankAimingComponent::AimAt(FVector HitLocation, float FireSpeed)
 {
 	auto CurrentTankName = GetOwner()->GetName();
 	if (!Barrel) { return; }
+	UE_LOG(LogTemp, Warning, TEXT("Has Barrel"));
 	FVector OutLaunchVelocity;
 	
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Turret_Out"));
@@ -53,13 +55,22 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float FireSpeed)
 		OutLaunchVelocity,
 		StartLocation,
 		HitLocation,
-		FireSpeed
+		FireSpeed,
+		false,
+		1.f,
+		0,
+		ESuggestProjVelocityTraceOption::DoNotTrace,
+		FCollisionResponseParams::DefaultResponseParam,
+		TArray<AActor*>(), true
 	);
 
 	if(bHaveAimSolution) {
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);
 		DrawDebugLine(GetWorld(), StartLocation, HitLocation, FColor::Red, false, -1.f, '\000', 10.f);
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("NO Aim Solution %f"), GetWorld()->GetTimeSeconds());
 	}
 
 }

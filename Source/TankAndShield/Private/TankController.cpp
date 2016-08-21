@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankAndShield.h"
+#include "Public/Tank.h"
 #include "TankController.h"
 
 
@@ -59,12 +60,8 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector &HitLocation) const
 	if (GetLookDirection(ScreenPosition, LookDirection)) {
 		FVector ActorLocation = GetPawn()->GetActorLocation();
 
-		if (GetLookVectorHitLocation(LookDirection, HitLocation))
-		{
-			return true;
-		}
-
-		return false;
+		
+		return GetLookVectorHitLocation(LookDirection, HitLocation);
 	}
 	else {
 		return false;
@@ -87,6 +84,7 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVec
 		ECollisionChannel::ECC_Visibility)
 		) {
 		HitLocation = HitResult.Location;
+		UE_LOG(LogTemp, Warning, TEXT("HITRESULT"));
 		return true;
 
 	}
