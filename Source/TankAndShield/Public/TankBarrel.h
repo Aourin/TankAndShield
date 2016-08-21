@@ -8,11 +8,16 @@
 /**
  * 
  */
-UCLASS()
+
+UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class TANKANDSHIELD_API UTankBarrel : public UStaticMeshComponent
 {
 	GENERATED_BODY()
 	
 public:
-	void Elevate(float DegreesPerSecond);	
+	void Elevate(float DegreesPerSecond);
+
+private:
+	UPROPERTY(EditAnywhere)
+    float MaxDegreesPerSecond = 20;
 };

@@ -7,6 +7,7 @@
 
 class UTankBarrel;
 
+//	Holds Barrel Props and Elevates
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class TANKANDSHIELD_API UTankAimingComponent : public UActorComponent
 {
