@@ -4,8 +4,6 @@
 #include "TankAIController.h"
 
 
-
-
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
@@ -43,11 +41,17 @@ bool ATankAIController::GetSightRayHitLocation(FVector & HitLocation) const
 	return false;
 }
 
+/*
+*	Gets the Tank Class of this Pawn
+*/
 ATank* ATankAIController::GetControlledTank() const
 {
 	return Cast<ATank>(GetPawn());
 }
 
+/**
+*	Gets the Player Tank in the world
+*/
 ATank* ATankAIController::GetPlayerTank() const
 {		
 	auto PlayerPawn = GetWorld()->GetFirstPlayerController()->GetPawn();
