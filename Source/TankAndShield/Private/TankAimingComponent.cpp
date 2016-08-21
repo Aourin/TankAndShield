@@ -24,10 +24,16 @@ void UTankAimingComponent::SetTurretBaseReference(UStaticMeshComponent* TurretBa
 	TurretBase = TurretBaseToSet;
 }
 
+
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
-	
+	auto TurretRotation = Barrel->GetForwardVector().Rotation();
+	auto AimRotator = AimDirection.Rotation();
+	if (!TurretBase) { return; }
+	auto DeltaRotator = AimRotator - TurretRotation;
+	TurretBase->SetRelativeRotation(DeltaRotator);
 }
+
 void UTankAimingComponent::AimAt(FVector HitLocation, float FireSpeed)
 {
 	auto CurrentTankName = GetOwner()->GetName();
@@ -48,7 +54,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float FireSpeed)
 
 	if(bHaveAimSolution) {
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
-		Barrel->SetRelativeRotation(AimDirection.ToOrientationRotator());
+		MoveBarrelTowards(AimDirection);
 		DrawDebugLine(GetWorld(), StartLocation, HitLocation, FColor::Red, false, -1.f, '\000', 10.f);
 	}
 
