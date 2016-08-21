@@ -19,26 +19,15 @@ void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent* BarrelToSet)
 {
 	Barrel = BarrelToSet;
 }
-
-// Called when the game starts
-void UTankAimingComponent::BeginPlay()
+void UTankAimingComponent::SetTurretBaseReference(UStaticMeshComponent* TurretBaseToSet)
 {
-	Super::BeginPlay();
+	TurretBase = TurretBaseToSet;
+}
 
-	// ...
+void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
+{
 	
 }
-
-
-// Called every frame
-void UTankAimingComponent::TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction )
-{
-	Super::TickComponent( DeltaTime, TickType, ThisTickFunction );
-
-	// ...
-}
-
-
 void UTankAimingComponent::AimAt(FVector HitLocation, float FireSpeed)
 {
 	auto CurrentTankName = GetOwner()->GetName();
@@ -49,20 +38,15 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float FireSpeed)
 	// UE_LOG(LogTemp, Warning, TEXT("%s is aiming at %s from "), *CurrentTankName, *HitLocation.ToString());
 
 
-	if (UGameplayStatics::SuggestProjectileVelocity(
+	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity(
 		this,
 		OutLaunchVelocity,
 		StartLocation,
 		HitLocation,
-		FireSpeed,
-		false,
-		0,
-		0.f,
-		ESuggestProjVelocityTraceOption::DoNotTrace,
-		FCollisionResponseParams::DefaultResponseParam,
-		TArray<AActor*>(), true)
-		) {
+		FireSpeed
+	);
 
+	if(bHaveAimSolution) {
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
 		Barrel->SetRelativeRotation(AimDirection.ToOrientationRotator());
 		DrawDebugLine(GetWorld(), StartLocation, HitLocation, FColor::Red, false, -1.f, '\000', 10.f);

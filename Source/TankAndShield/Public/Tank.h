@@ -17,6 +17,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetBarrelReference(UStaticMeshComponent* BarrelToSet);
 
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void SetTurretBaseReference(UStaticMeshComponent* TurretBase);
+
 	UPROPERTY(EditAnywhere, Category = Firing)
     float FireSpeed = 65000.f;
 
