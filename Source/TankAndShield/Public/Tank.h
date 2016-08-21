@@ -16,6 +16,10 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetBarrelReference(UStaticMeshComponent* BarrelToSet);
+
+	UPROPERTY(EditAnywhere, Category = Firing)
+    float FireSpeed = 65000.f;
+
 protected:
 	UTankAimingComponent* TankAimingComponent = nullptr;
 private:

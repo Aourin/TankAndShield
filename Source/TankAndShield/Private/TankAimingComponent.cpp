@@ -39,13 +39,34 @@ void UTankAimingComponent::TickComponent( float DeltaTime, ELevelTick TickType, 
 }
 
 
-void UTankAimingComponent::AimAt(FVector HitLocation)
+void UTankAimingComponent::AimAt(FVector HitLocation, float FireSpeed)
 {
 	auto CurrentTankName = GetOwner()->GetName();
-	auto BarrelLocation = Barrel->GetComponentLocation();
-
-	// UE_LOG(LogTemp, Warning, TEXT("%s is aiming at %s from "), *CurrentTankName, *HitLocation.ToString());
+	if (!Barrel) { return; }
+	FVector OutLaunchVelocity;
 	
-	DrawDebugLine(GetWorld(), BarrelLocation, HitLocation, FColor::Red, false, -1.f, '\000', 10.f);
+	FVector StartLocation = Barrel->GetSocketLocation(FName("Turret_Out"));
+	// UE_LOG(LogTemp, Warning, TEXT("%s is aiming at %s from "), *CurrentTankName, *HitLocation.ToString());
+
+
+	if (UGameplayStatics::SuggestProjectileVelocity(
+		this,
+		OutLaunchVelocity,
+		StartLocation,
+		HitLocation,
+		FireSpeed,
+		false,
+		0,
+		0.f,
+		ESuggestProjVelocityTraceOption::DoNotTrace,
+		FCollisionResponseParams::DefaultResponseParam,
+		TArray<AActor*>(), true)
+		) {
+
+		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
+		Barrel->SetRelativeRotation(AimDirection.ToOrientationRotator());
+		DrawDebugLine(GetWorld(), StartLocation, HitLocation, FColor::Red, false, -1.f, '\000', 10.f);
+	}
+
 }
 
