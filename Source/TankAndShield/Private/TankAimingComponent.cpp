@@ -42,7 +42,10 @@ void UTankAimingComponent::TickComponent( float DeltaTime, ELevelTick TickType, 
 void UTankAimingComponent::AimAt(FVector HitLocation)
 {
 	auto CurrentTankName = GetOwner()->GetName();
-	DrawDebugLine(GetWorld(), GetOwner()->GetActorLocation(), HitLocation, FColor::Red, false, -1.f, '\000', 10.f);
-	UE_LOG(LogTemp, Warning, TEXT("%s is aiming at %s"), *CurrentTankName, *HitLocation.ToString());
+	auto BarrelLocation = Barrel->GetComponentLocation();
+
+	// UE_LOG(LogTemp, Warning, TEXT("%s is aiming at %s from "), *CurrentTankName, *HitLocation.ToString());
+	
+	DrawDebugLine(GetWorld(), BarrelLocation, HitLocation, FColor::Red, false, -1.f, '\000', 10.f);
 }
 
