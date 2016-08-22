@@ -32,18 +32,20 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	auto AimRotator = AimDirection.Rotation();
 	if (!TurretBase) { return; }
 
-	UE_LOG(LogTemp, Warning, TEXT("Move Barrel Towards"));
-	//auto DeltaRotator = AimRotator - TurretRotation;
+	//UE_LOG(LogTemp, Warning, TEXT("Move Barrel Towards"));
+	auto DeltaRotator = AimRotator - TurretRotation;
 	//TurretBase->SetRelativeRotation(DeltaRotator);
 
-	Barrel->Elevate(5.f);
+	Barrel->Elevate(DeltaRotator.Pitch);
 }
 
 void UTankAimingComponent::AimAt(FVector HitLocation, float FireSpeed)
 {
 	auto CurrentTankName = GetOwner()->GetName();
-	if (!Barrel) { return; }
-	UE_LOG(LogTemp, Warning, TEXT("Has Barrel"));
+	if (!Barrel) {
+		UE_LOG(LogTemp, Warning, TEXT("Tank %s Has No Barrel"), *CurrentTankName); 
+		return;
+	}
 	FVector OutLaunchVelocity;
 	
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Turret_Out"));
@@ -61,7 +63,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float FireSpeed)
 		0,
 		ESuggestProjVelocityTraceOption::DoNotTrace,
 		FCollisionResponseParams::DefaultResponseParam,
-		TArray<AActor*>(), true
+		TArray<AActor*>(), false
 	);
 
 	if(bHaveAimSolution) {

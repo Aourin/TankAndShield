@@ -41,3 +41,8 @@ void ATank::AimAt(FVector HitLocation)
 	TankAimingComponent->AimAt(HitLocation, FireSpeed);
 }
 
+float ATank::GetMaxTargettingDistance() const
+{
+	return MaxTargettingDistance;
+}
+

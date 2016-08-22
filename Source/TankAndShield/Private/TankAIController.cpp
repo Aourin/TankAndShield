@@ -30,12 +30,27 @@ void ATankAIController::BeginPlay()
 void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	
+}
+
+
+void ATankAIController::AimAtPlayer() const
+{
 	auto ControlledTank = GetControlledTank();
 	auto PlayerTank = GetPlayerTank();
 	if (ControlledTank && PlayerTank)
 	{
-		ControlledTank->AimAt(PlayerTank->GetActorLocation());
+		FVector Distance = (PlayerTank->GetActorLocation() - ControlledTank->GetActorLocation());
+
+		//	Check the size and aim if with range
+		if (Distance.Size() <= ControlledTank->GetMaxTargettingDistance())
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Enemy Has Site on Player %f"), Distance.Size());
+			ControlledTank->AimAt(PlayerTank->GetActorLocation());
+		}
+		
 	}
+
 }
 bool ATankAIController::GetSightRayHitLocation(FVector & HitLocation) const
 {

@@ -58,9 +58,6 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector &HitLocation) const
 
 	//	Get the HitLocation
 	if (GetLookDirection(ScreenPosition, LookDirection)) {
-		FVector ActorLocation = GetPawn()->GetActorLocation();
-
-		
 		return GetLookVectorHitLocation(LookDirection, HitLocation);
 	}
 	else {
@@ -84,9 +81,7 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVec
 		ECollisionChannel::ECC_Visibility)
 		) {
 		HitLocation = HitResult.Location;
-		UE_LOG(LogTemp, Warning, TEXT("HITRESULT"));
 		return true;
-
 	}
 
 	return false;

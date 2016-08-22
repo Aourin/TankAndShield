@@ -17,7 +17,7 @@ class TANKANDSHIELD_API ATankAIController : public AAIController
 public:
 	UPROPERTY(EditAnywhere)
 	AActor* TargetActor;
-	
+
 private:
 	ATank* GetControlledTank() const;
 	ATank* GetPlayerTank() const;
@@ -25,4 +25,5 @@ private:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 	bool GetSightRayHitLocation(FVector &HitLocation) const;
+	void AimAtPlayer() const;
 };

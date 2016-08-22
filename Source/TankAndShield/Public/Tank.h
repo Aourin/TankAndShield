@@ -25,11 +25,20 @@ public:
 	UPROPERTY(EditAnywhere, Category = Firing)
     float FireSpeed = 65000.f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Firing)
+	float BoostSpeed = 100.f;
+	
+	float GetMaxTargettingDistance() const;
+	
 protected:
 	UTankAimingComponent* TankAimingComponent = nullptr;
 private:
 	// Sets default values for this pawn's properties
 	ATank();
+
+	UPROPERTY(EditAnywhere, Category = Firing)
+	float MaxTargettingDistance = 4000.f;
+
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
