@@ -3,6 +3,7 @@
 #include "TankAndShield.h"
 #include "Public/TankBarrel.h"
 #include "Public/TurretBase.h"
+#include "Public/TankProjectile.h"
 #include "TankAimingComponent.h"
 
 // Sets default values for this component's properties
@@ -74,8 +75,15 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float FireSpeed)
 		DrawDebugLine(GetWorld(), StartLocation, HitLocation, FColor::Red, false, -1.f, '\000', 10.f);
 	}
 	else {
-		UE_LOG(LogTemp, Warning, TEXT("NO Aim Solution %f"), GetWorld()->GetTimeSeconds());
+		//UE_LOG(LogTemp, Warning, TEXT("NO Aim Solution %f"), GetWorld()->GetTimeSeconds());
 	}
 
+}
+
+void UTankAimingComponent::Fire()
+{
+	if (!Barrel) { return; }
+	
+	Barrel->Fire();
 }
 

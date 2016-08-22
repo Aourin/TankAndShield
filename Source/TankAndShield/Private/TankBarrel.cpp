@@ -16,3 +16,8 @@ void UTankBarrel::Elevate(float RelativeSpeed)
 
 	SetRelativeRotation(FRotator(Elevation, 0, 0));
 }
+
+void UTankBarrel::Fire()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Fire in Barrel"));
+}

@@ -22,6 +22,7 @@ public:
 	void SetTurretBaseReference(UTurretBase* TurretBaseToSet);
 
 	void AimAt(FVector HitLocation, float FireSpeed);
+	void Fire();
 private:
 	UTankBarrel* Barrel = nullptr;
 	UTurretBase* TurretBase = nullptr;

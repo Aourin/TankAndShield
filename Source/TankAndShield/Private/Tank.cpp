@@ -4,6 +4,7 @@
 #include "Public/TankBarrel.h"
 #include "Public/TurretBase.h"
 #include "Public/TankAimingComponent.h"
+#include "Public/TankProjectile.h"
 #include "Tank.h"
 
 // Sets default values
@@ -17,6 +18,7 @@ ATank::ATank()
 
 void ATank::SetBarrelReference(UTankBarrel* BarrelToSet)
 {
+	Barrel = BarrelToSet;
 	TankAimingComponent->SetBarrelReference(BarrelToSet);
 }
 void ATank::SetTurretBaseReference(UTurretBase* TurretBaseToSet)
@@ -49,5 +51,12 @@ float ATank::GetMaxTargettingDistance() const
 
 void ATank::Fire()
 {
+	if (!Barrel) { return; }
+	auto Time = GetWorld()->GetTimeSeconds();
 	UE_LOG(LogTemp, Warning, TEXT("Firing!"));
+	GetWorld()->SpawnActor<ATankProjectile>(
+		ProjectileBlueprint, 
+		Barrel->GetSocketLocation(FName("Turret_Out")), 
+		Barrel->GetSocketRotation(FName("Turret_Out"))
+	);
 }

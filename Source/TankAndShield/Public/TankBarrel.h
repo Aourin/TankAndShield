@@ -16,6 +16,7 @@ class TANKANDSHIELD_API UTankBarrel : public UStaticMeshComponent
 	
 public:
 	void Elevate(float RelativeSpeed);
+	void Fire();
 
 private:
 	UPROPERTY(EditAnywhere, Category = Setup)

@@ -8,6 +8,7 @@
 class UTankAimingComponent;
 class UTankBarrel;	
 class UTurretBase;
+class ATankProjectile;
 
 UCLASS()
 class TANKANDSHIELD_API ATank : public APawn
@@ -23,7 +24,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetTurretBaseReference(UTurretBase* TurretBase);
 
-	UFUNCTION(BlueprintCallable, Category = 'Actions')
+	UFUNCTION(BlueprintCallable, Category = "Actions")
 	void Fire();
 
 	UPROPERTY(EditAnywhere, Category = Firing)
@@ -50,6 +51,9 @@ private:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
-	
+	UPROPERTY(EditAnywhere, Category = "Firing")
+	TSubclassOf<ATankProjectile> ProjectileBlueprint;
+
+	UTankBarrel* Barrel = nullptr;
 	
 };
