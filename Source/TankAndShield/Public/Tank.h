@@ -7,6 +7,7 @@
 
 class UTankAimingComponent;
 class UTankBarrel;	
+class UTurretBase;
 
 UCLASS()
 class TANKANDSHIELD_API ATank : public APawn
@@ -20,7 +21,7 @@ public:
 	void SetBarrelReference(UTankBarrel* BarrelToSet);
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetTurretBaseReference(UStaticMeshComponent* TurretBase);
+	void SetTurretBaseReference(UTurretBase* TurretBase);
 
 	UPROPERTY(EditAnywhere, Category = Firing)
     float FireSpeed = 65000.f;
