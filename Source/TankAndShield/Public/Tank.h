@@ -23,6 +23,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetTurretBaseReference(UTurretBase* TurretBase);
 
+	UFUNCTION(BlueprintCallable, Category = 'Actions')
+	void Fire();
+
 	UPROPERTY(EditAnywhere, Category = Firing)
     float FireSpeed = 65000.f;
 

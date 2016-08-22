@@ -47,3 +47,7 @@ float ATank::GetMaxTargettingDistance() const
 	return MaxTargettingDistance;
 }
 
+void ATank::Fire()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Firing!"));
+}
