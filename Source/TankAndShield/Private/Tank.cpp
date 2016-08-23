@@ -54,9 +54,12 @@ void ATank::Fire()
 	if (!Barrel) { return; }
 	auto Time = GetWorld()->GetTimeSeconds();
 	UE_LOG(LogTemp, Warning, TEXT("Firing!"));
-	GetWorld()->SpawnActor<ATankProjectile>(
+
+	auto Projectile = GetWorld()->SpawnActor<ATankProjectile>(
 		ProjectileBlueprint, 
 		Barrel->GetSocketLocation(FName("Turret_Out")), 
 		Barrel->GetSocketRotation(FName("Turret_Out"))
 	);
+
+	Projectile->LaunchProjectile(FireSpeed);
 }

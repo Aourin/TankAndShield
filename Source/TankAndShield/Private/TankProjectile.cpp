@@ -11,7 +11,7 @@ ATankProjectile::ATankProjectile()
 	PrimaryActorTick.bCanEverTick = true;
 
 	TankProjectileMovement = CreateDefaultSubobject<UTankProjectileMovement>(FName("Projectile Movement"));
-	
+	TankProjectileMovement->bAutoActivate = false;
 }
 
 // Called when the game starts or when spawned
@@ -26,5 +26,13 @@ void ATankProjectile::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
 
+}
+
+// Called every frame
+void ATankProjectile::LaunchProjectile(float Speed)
+{
+	auto Time = GetWorld()->GetTimeSeconds();
+	TankProjectileMovement->SetVelocityInLocalSpace(FVector::ForwardVector * Speed);
+	TankProjectileMovement->Activate();
 }
 
