@@ -48,7 +48,12 @@ float ATank::GetMaxTargettingDistance() const
 {
 	return MaxTargettingDistance;
 }
-
+void ATank::MoveTowardLocation(FVector TargetLocation)
+{
+	auto Time = GetWorld()->DeltaTimeSeconds;
+	FVector Direction = (TargetLocation - GetActorLocation());
+	SetActorRelativeLocation(GetActorLocation() + Direction.GetSafeNormal() * Time * BaseMovementSpeed);
+}
 void ATank::Fire()
 {
 	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
@@ -65,6 +70,7 @@ void ATank::Fire()
 			);
 
 		Projectile->LaunchProjectile(FireSpeed);
+
 		LastFireTime = FPlatformTime::Seconds();
 	}
 }

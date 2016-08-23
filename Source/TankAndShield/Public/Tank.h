@@ -17,7 +17,7 @@ class TANKANDSHIELD_API ATank : public APawn
 
 public:
 	void AimAt(FVector HitLocation);
-
+	void MoveTowardLocation(FVector TargetLocation);
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetBarrelReference(UTankBarrel* BarrelToSet);
 
@@ -28,13 +28,16 @@ public:
 	void Fire();
 
 	UPROPERTY(EditAnywhere, Category = Firing)
-    float FireSpeed = 65000.f;
+    float FireSpeed = 90000.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
+	float BaseMovementSpeed = 1000.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Firing)
 	float BoostSpeed = 100.f;
 
 	float GetMaxTargettingDistance() const;
-	
+
 protected:
 	UTankAimingComponent* TankAimingComponent = nullptr;
 private:
@@ -54,8 +57,12 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Firing")
 	TSubclassOf<ATankProjectile> ProjectileBlueprint;
 
+	UPROPERTY(EditAnywhere, Category = "Firing")
+	TSubclassOf<UParticleEmitter> Explosion;
+
 	UTankBarrel* Barrel = nullptr;
 	
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float ReloadTimeInSeconds = 3.f;
 	double LastFireTime = 0;
 };
