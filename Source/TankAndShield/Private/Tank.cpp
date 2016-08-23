@@ -48,15 +48,29 @@ float ATank::GetMaxTargettingDistance() const
 {
 	return MaxTargettingDistance;
 }
-
+void ATank::MoveTowardLocation(FVector TargetLocation)
+{
+	auto Time = GetWorld()->DeltaTimeSeconds;
+	FVector Direction = (TargetLocation - GetActorLocation());
+	SetActorRelativeLocation(GetActorLocation() + Direction.GetSafeNormal() * Time * BaseMovementSpeed);
+}
 void ATank::Fire()
 {
-	if (!Barrel) { return; }
-	auto Time = GetWorld()->GetTimeSeconds();
-	UE_LOG(LogTemp, Warning, TEXT("Firing!"));
-	GetWorld()->SpawnActor<ATankProjectile>(
-		ProjectileBlueprint, 
-		Barrel->GetSocketLocation(FName("Turret_Out")), 
-		Barrel->GetSocketRotation(FName("Turret_Out"))
-	);
+	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
+	if (Barrel && isReloaded) {
+
+		auto Time = GetWorld()->GetTimeSeconds();
+
+		UE_LOG(LogTemp, Warning, TEXT("Firing!"));
+
+		auto Projectile = GetWorld()->SpawnActor<ATankProjectile>(
+			ProjectileBlueprint,
+			Barrel->GetSocketLocation(FName("Turret_Out")),
+			Barrel->GetSocketRotation(FName("Turret_Out"))
+			);
+
+		Projectile->LaunchProjectile(FireSpeed);
+
+		LastFireTime = FPlatformTime::Seconds();
+	}
 }
