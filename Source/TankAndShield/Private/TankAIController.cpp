@@ -8,45 +8,36 @@
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
-	auto ControlledTank = GetControlledTank();
-	auto PlayerTank = GetPlayerTank();
-
-	if (!ControlledTank) {
-		UE_LOG(LogTemp, Warning, TEXT("No AI Tank Controlled"));
-	}
-	else {
-		UE_LOG(LogTemp, Warning, TEXT("Controlled AI Tank is %s"), *(ControlledTank->GetName()));
-	}
-
-	if (!PlayerTank) {
-		UE_LOG(LogTemp, Warning, TEXT("AI Cannot Find Player tank"));
-	}
-	else {
-		TargetActor = PlayerTank;
-		UE_LOG(LogTemp, Warning, TEXT("Set Target to %s"), *(TargetActor->GetName()));
-	}
 }
 
 void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	auto ControlledTank = Cast<ATank>(GetPawn());
+	auto PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
+
+	if (!ControlledTank && !PlayerTank)
+	{
+		AimAtLocation(ControlledTank, PlayerTank->GetActorLocation());
+		
+	}
 	
 }
 
 
-void ATankAIController::AimAtPlayer() const
+void ATankAIController::AimAtLocation(ATank* ControlledTank, FVector TargetLocation) const
 {
-	auto ControlledTank = GetControlledTank();
-	auto PlayerTank = GetPlayerTank();
-	if (ControlledTank && PlayerTank)
-	{
-		FVector Distance = (PlayerTank->GetActorLocation() - ControlledTank->GetActorLocation());
 
+	if (ControlledTank)
+	{
+		FVector Distance = (TargetLocation - ControlledTank->GetActorLocation());
+		UE_LOG(LogTemp, Warning, TEXT("Range to Player %f"), Distance.Size());
 		//	Check the size and aim if with range
-		if (Distance.Size() <= ControlledTank->GetMaxTargettingDistance())
+		if (Distance.Size() > 0)
 		{
 			UE_LOG(LogTemp, Warning, TEXT("Enemy Has Site on Player %f"), Distance.Size());
-			ControlledTank->AimAt(PlayerTank->GetActorLocation());
+			ControlledTank->AimAt(TargetLocation);
+			ControlledTank->Fire();
 		}
 		
 	}
@@ -56,23 +47,3 @@ bool ATankAIController::GetSightRayHitLocation(FVector & HitLocation) const
 {
 	return false;
 }
-
-/*
-*	Gets the Tank Class of this Pawn
-*/
-ATank* ATankAIController::GetControlledTank() const
-{
-	return Cast<ATank>(GetPawn());
-}
-
-/**
-*	Gets the Player Tank in the world
-*/
-ATank* ATankAIController::GetPlayerTank() const
-{		
-	auto PlayerPawn = GetWorld()->GetFirstPlayerController()->GetPawn();
-	if (!PlayerPawn) { return nullptr; }
-
-	return Cast<ATank>(PlayerPawn);
-}
-

@@ -51,15 +51,20 @@ float ATank::GetMaxTargettingDistance() const
 
 void ATank::Fire()
 {
-	if (!Barrel) { return; }
-	auto Time = GetWorld()->GetTimeSeconds();
-	UE_LOG(LogTemp, Warning, TEXT("Firing!"));
+	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
+	if (Barrel && isReloaded) {
 
-	auto Projectile = GetWorld()->SpawnActor<ATankProjectile>(
-		ProjectileBlueprint, 
-		Barrel->GetSocketLocation(FName("Turret_Out")), 
-		Barrel->GetSocketRotation(FName("Turret_Out"))
-	);
+		auto Time = GetWorld()->GetTimeSeconds();
 
-	Projectile->LaunchProjectile(FireSpeed);
+		UE_LOG(LogTemp, Warning, TEXT("Firing!"));
+
+		auto Projectile = GetWorld()->SpawnActor<ATankProjectile>(
+			ProjectileBlueprint,
+			Barrel->GetSocketLocation(FName("Turret_Out")),
+			Barrel->GetSocketRotation(FName("Turret_Out"))
+			);
+
+		Projectile->LaunchProjectile(FireSpeed);
+		LastFireTime = FPlatformTime::Seconds();
+	}
 }

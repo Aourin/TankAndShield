@@ -19,11 +19,8 @@ public:
 	AActor* TargetActor;
 
 private:
-	ATank* GetControlledTank() const;
-	ATank* GetPlayerTank() const;
-
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 	bool GetSightRayHitLocation(FVector &HitLocation) const;
-	void AimAtPlayer() const;
+	void AimAtLocation(ATank* ControlledTank, FVector TargetLocation) const;
 };
