@@ -5,6 +5,8 @@
 #include "GameFramework/Actor.h"
 #include "TankProjectile.generated.h"
 
+class UTankProjectileMovement;
+
 UCLASS()
 class TANKANDSHIELD_API ATankProjectile : public AActor
 {
@@ -13,7 +15,9 @@ class TANKANDSHIELD_API ATankProjectile : public AActor
 public:	
 	// Sets default values for this actor's properties
 	ATankProjectile();
-
+protected:
+	UTankProjectileMovement* TankProjectileMovement = nullptr;
+private:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	

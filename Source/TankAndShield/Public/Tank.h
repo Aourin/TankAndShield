@@ -32,7 +32,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Firing)
 	float BoostSpeed = 100.f;
-	
+
 	float GetMaxTargettingDistance() const;
 	
 protected:
