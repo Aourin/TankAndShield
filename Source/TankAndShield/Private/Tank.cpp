@@ -74,3 +74,12 @@ void ATank::Fire()
 		LastFireTime = FPlatformTime::Seconds();
 	}
 }
+
+void ATank::Move(float Throttle)
+{
+	auto ForceApplied = GetActorForwardVector() * Throttle * MaxMovementForce;
+	auto ForceLocation = GetActorLocation();
+	UE_LOG(LogTemp, Warning, TEXT("Moving %s"), *ForceApplied.ToString());
+	//auto TankRoot = Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent());
+	//TankRoot->AddForceAtLocation(ForceApplied, ForceLocation);
+}

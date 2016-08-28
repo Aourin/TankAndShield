@@ -23,18 +23,15 @@ void ATankAIController::Tick(float DeltaTime)
 	
 }
 
-
 void ATankAIController::AimAtLocation(ATank* ControlledTank, FVector TargetLocation) const
 {
 
 	if (ControlledTank)
 	{
 		FVector Distance = (TargetLocation - ControlledTank->GetActorLocation());
-		UE_LOG(LogTemp, Warning, TEXT("Range to Player %f"), Distance.Size());
 		//	Check the size and aim if with range
 		if (Distance.Size() < ControlledTank->GetMaxTargettingDistance())
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Enemy Has Site on Player %f"), Distance.Size());
 			ControlledTank->AimAt(TargetLocation);
 			ControlledTank->Fire();
 		}

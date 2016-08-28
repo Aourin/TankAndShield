@@ -27,6 +27,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Actions")
 	void Fire();
 
+	UFUNCTION(BlueprintCallable, Category = "Movement")
+	void Move(float Throttle);
+
 	UPROPERTY(EditAnywhere, Category = Firing)
     float FireSpeed = 90000.f;
 
@@ -36,10 +39,15 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Firing)
 	float BoostSpeed = 100.f;
 
+
+	UPROPERTY(EditDefaultsOnly, Category = "Movement")
+	float MaxMovementForce = 400000.f;
+
 	float GetMaxTargettingDistance() const;
 
 protected:
 	UTankAimingComponent* TankAimingComponent = nullptr;
+
 private:
 	// Sets default values for this pawn's properties
 	ATank();
@@ -60,6 +68,7 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Firing")
 	TSubclassOf<UParticleEmitter> Explosion;
 
+	
 	UTankBarrel* Barrel = nullptr;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
