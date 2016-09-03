@@ -12,6 +12,14 @@ void UTankMovementComponent::Initialize(UBooster* BoosterToSet)
 void UTankMovementComponent::IntendMoveForward(float Throttle)
 {
 	if (!TargetBooster) { return; }
-
 	TargetBooster->SetThrottle(Throttle);
+}
+
+void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)
+{
+	auto TankForward = GetOwner()->GetActorForwardVector().GetSafeNormal();
+	auto AIForwardIntention = MoveVelocity.GetSafeNormal();
+
+	auto ForwardThrow = FVector::DotProduct(TankForward, AIForwardIntention);
+	IntendMoveForward(ForwardThrow);
 }

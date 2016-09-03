@@ -71,6 +71,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float FireSpeed)
 
 	if(bHaveAimSolution) {
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
+		//auto AimDirection = (HitLocation - StartLocation).GetSafeNormal();
 		MoveBarrelTowards(AimDirection);
 		DrawDebugLine(GetWorld(), StartLocation, HitLocation, FColor::Red, false, -1.f, '\000', 10.f);
 	}

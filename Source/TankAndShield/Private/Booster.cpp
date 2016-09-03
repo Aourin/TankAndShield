@@ -5,10 +5,11 @@
 
 void UBooster::SetThrottle(float Throttle)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Throttling %f"), Throttle);
 	auto ForceApplied = BoostForce * Throttle * GetForwardVector();
 	auto ForceLocation = GetComponentLocation();
 	auto RootTank = Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent());
+	auto Name = GetOwner()->GetName();
+	UE_LOG(LogTemp, Warning, TEXT("%s is moving with Force %s"), *Name, *ForceApplied.ToString());
 	RootTank->AddForceAtLocation(ForceApplied, ForceLocation);
 }
 

@@ -18,7 +18,15 @@ void ATankAIController::Tick(float DeltaTime)
 
 	if (ControlledTank && PlayerTank)
 	{
-		AimAtLocation(ControlledTank, PlayerTank->GetActorLocation());
+		
+		AimAtLocation(ControlledTank, PlayerTank->GetActorLocation()); 
+	
+		FVector Distance = (PlayerTank->GetActorLocation() - ControlledTank->GetActorLocation());
+		//	Check the size and aim if with range
+		if (Distance.Size() > ControlledTank->GetMaxTargettingDistance())
+		{
+			MoveToActor(PlayerTank, 5.f, true, true, false);
+		}
 	}
 	
 }
@@ -34,11 +42,7 @@ void ATankAIController::AimAtLocation(ATank* ControlledTank, FVector TargetLocat
 		{
 			ControlledTank->AimAt(TargetLocation);
 			ControlledTank->Fire();
-		}
-		else {
-			ControlledTank->MoveTowardLocation(TargetLocation);
-		}
-		
+		}		
 	}
 
 }

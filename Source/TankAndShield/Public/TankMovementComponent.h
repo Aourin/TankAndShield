@@ -22,7 +22,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Input")
 	void IntendMoveForward(float Throttle);
 
+	void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
 private:
 	UBooster* TargetBooster = nullptr;
-		
 };
