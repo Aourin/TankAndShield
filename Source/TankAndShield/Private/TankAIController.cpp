@@ -25,7 +25,7 @@ void ATankAIController::Tick(float DeltaTime)
 		//	Check the size and aim if with range
 		if (Distance.Size() > ControlledTank->GetMaxTargettingDistance())
 		{
-			MoveToActor(PlayerTank, 5.f, true, true, false);
+			MoveToActor(PlayerTank, ControlledTank->GetMaxTargettingDistance() * 0.7f, true, true, false);
 		}
 	}
 	

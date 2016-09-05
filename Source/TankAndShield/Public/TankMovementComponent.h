@@ -16,13 +16,18 @@ class TANKANDSHIELD_API UTankMovementComponent : public UNavMovementComponent
 	GENERATED_BODY()
 	
 public:
-	UFUNCTION(BlueprintCallable, Category = "Input")
-	void Initialize(UBooster* BoosterToSet);
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	void Initialize(UBooster* MainToSet, UBooster* LeftToSet, UBooster* RightToSet);
 
-	UFUNCTION(BlueprintCallable, Category = "Input")
+	UFUNCTION(BlueprintCallable, Category = "Movement")
 	void IntendMoveForward(float Throttle);
+
+	UFUNCTION(BlueprintCallable, Category = "Movement")
+	void IntendTurnRight(float Throttle);
 
 	void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
 private:
-	UBooster* TargetBooster = nullptr;
+	UBooster* MainBooster = nullptr;
+	UBooster* LeftBooster = nullptr;
+	UBooster* RightBooster = nullptr;
 };
